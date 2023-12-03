@@ -1,4 +1,4 @@
-const songs = [
+export const songs = [
   {
     name: "Lost in the city Lights",
     artist: "Cosmo Sheldrake",
@@ -12,3 +12,29 @@ const songs = [
     song: "/forest-lullaby-110624.mp3",
   },
 ];
+
+export const getDuration = async function (songSource, song) {
+  try {
+    console.log(songSource, song);
+    const audioContext = new AudioContext();
+    const songURL = `./src/songs${songSource}`;
+    await fetch(songURL)
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => audioContext.decodeAudioData(buffer))
+      .then((audioBuffer) => {
+        const duration = audioBuffer.duration;
+        const durationMinutes = String(Math.trunc(duration / 60));
+        const durationSeconds = String(
+          Math.trunc((duration / 60 - durationMinutes) * 60)
+        );
+        song.duration = `${durationMinutes.padStart(
+          2,
+          0
+        )}:${durationSeconds.padStart(2, 0)}`;
+        console.log(song.duration);
+      })
+      .catch((err) => console.log(err));
+  } catch (err) {
+    console.log(err);
+  }
+};
