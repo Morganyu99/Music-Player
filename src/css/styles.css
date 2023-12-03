@@ -1,0 +1,159 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+:root {
+  --color-primary: #c93b76;
+  --color-secondary: #212936;
+  --color-accent: #e5e7eb;
+  /* --color-secondary-bacground: #121826a6; */
+  --color-gradient-background: linear-gradient(
+    to right top,
+    #4d3648,
+    #452b50,
+    #28385c
+  );
+  --color-player-text: #4d5562;
+}
+
+/* Typography */
+body,
+a,
+button,
+ul,
+li {
+  font-family: "Inter", sans-serif;
+  text-decoration: none;
+  color: var(--color-accent);
+}
+h2,
+span {
+  color: var(--color-player-text);
+}
+h1,
+h2,
+p,
+span {
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+h2 {
+  font-size: 1.2rem;
+}
+p {
+  font-size: 1rem;
+}
+
+/* Background */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: var(--color-gradient-background);
+  background-repeat: no-repeat;
+}
+
+/* Card */
+
+.card {
+  max-width: 35rem;
+  max-height: 75rem;
+  background-color: var(--color-secondary);
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5%;
+}
+
+.card__song-cover {
+  width: 90%;
+  height: 50%;
+  margin: 2rem auto;
+  margin-bottom: 1rem;
+}
+
+.card__song-cover img {
+  width: 100%;
+  height: 100%;
+  border-radius: 5%;
+}
+
+.card__song-details {
+  text-align: center;
+}
+.card__player {
+  width: 100%;
+}
+
+.card__time-stamps {
+  width: 100%;
+  display: flex;
+  padding: 0 2rem;
+  justify-content: space-between;
+}
+
+.card__player--total-span {
+  margin: 1rem 2rem;
+  background-color: var(--color-accent);
+  height: 5px;
+  border-radius: 2.5px;
+  box-shadow: 0 0 5px var(--color-primary);
+}
+.card__player--occ-span {
+  background-color: var(--color-primary);
+  max-width: 70%;
+  height: 5px;
+  border-radius: 2.5px;
+}
+
+.card__player-controls {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* icon */
+.player__icon svg {
+  width: 3rem;
+  height: 3rem;
+}
+.player__icon {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.player__icon--primary {
+  border-radius: 100%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+}
+.player__icon--large {
+  width: 5rem;
+  height: 5rem;
+}
+
+/* Hidden */
+.hidden {
+  display: none;
+}
