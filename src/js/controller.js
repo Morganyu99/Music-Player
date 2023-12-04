@@ -3,6 +3,12 @@ import * as model from "./model.js";
 import CardView from "./Views/CardView.js";
 
 const controlPlayer = async function (ev) {
+  if ((ev === PLAY_PREVIOUS) & CardView.checkTime()) {
+    CardView.resetSong();
+    controlCardView();
+    return;
+  }
+
   if (ev === PLAY_NEXT || ev === PLAY_PREVIOUS) {
     //IF song index is negative
     const updatedIndex = model.songIndex + ev;
@@ -16,6 +22,7 @@ const controlPlayer = async function (ev) {
       model.assignIndex(updatedIndex);
 
     controlCardView();
+    CardView.changeSongPlay();
   }
   if (ev === PAUSE_PLAY) {
     CardView.pausePlayPlayer();

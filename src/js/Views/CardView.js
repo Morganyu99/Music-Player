@@ -1,4 +1,9 @@
-import { PAUSE_PLAY, PLAY_NEXT, PLAY_PREVIOUS } from "../config.js";
+import {
+  MAX_CONSIDERED_TIME,
+  PAUSE_PLAY,
+  PLAY_NEXT,
+  PLAY_PREVIOUS,
+} from "../config.js";
 import { classListContains } from "../helpers.js";
 
 class CardView {
@@ -33,10 +38,31 @@ class CardView {
   }
 
   pausePlayPlayer() {
-    this._isPlaying ? this._musicElement.pause() : this._musicElement.play();
-    this._startPlayer.classList.toggle("hidden");
-    this._pausePlayer.classList.toggle("hidden");
     this._isPlaying = !this._isPlaying;
+    if (!this._isPlaying) {
+      this._musicElement.pause();
+      this._startPlayer.classList.remove("hidden");
+      this._pausePlayer.classList.add("hidden");
+      return;
+    }
+    this._musicElement.play();
+    this._startPlayer.classList.add("hidden");
+    this._pausePlayer.classList.remove("hidden");
+  }
+
+  resetSong() {
+    this._musicElement.load();
+    this._isPlaying = true;
+    this._musicElement.play();
+  }
+  checkTime() {
+    return this._musicElement.currentTime > MAX_CONSIDERED_TIME;
+  }
+  changeSongPlay() {
+    this._isPlaying = true;
+    this._startPlayer.classList.add("hidden");
+    this._pausePlayer.classList.remove("hidden");
+    this._musicElement.play();
   }
   _updatePlayer() {
     this._getDuration(this._musicElement.duration);
