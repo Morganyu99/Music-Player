@@ -20,6 +20,7 @@ html {
     #28385c
   );
   --color-player-text: #4d5562;
+  --width: 35rem;
 }
 
 /* Typography */
@@ -69,21 +70,21 @@ body {
 /* Card */
 
 .card {
-  max-width: 35rem;
-  max-height: 75rem;
   background-color: var(--color-secondary);
-  width: 60vw;
+  width: var(--width);
+  height: calc(var(--width) * 1.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 5%;
 }
-
-.card__song-cover {
+.card__cover-container {
   width: 90%;
-  height: 50%;
+  height: 80%;
   margin: 2rem auto;
   margin-bottom: 1rem;
+  border-radius: 5%;
+  overflow: hidden;
 }
 
 .card__song-cover img {
@@ -94,6 +95,7 @@ body {
 
 .card__song-details {
   text-align: center;
+  margin: 1rem 0;
 }
 .card__player {
   width: 100%;
@@ -131,7 +133,7 @@ body {
 }
 
 /* icon */
-.player__icon svg {
+.player__icon img {
   width: 3rem;
   height: 3rem;
 }
@@ -156,4 +158,19 @@ body {
 /* Hidden */
 .hidden {
   display: none;
+}
+
+/* Spinner */
+
+.spinner {
+  animation: rotate 0.2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

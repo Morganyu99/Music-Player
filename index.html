@@ -14,6 +14,28 @@
     <script type="module" src="./src/js/controller.js"></script>
   </head>
   <body>
-    <div class="card"></div>
+    <div class="card">
+      <div class="card__cover-container">
+        <picture class="card__song-cover"></picture>
+      </div>
+      <div class="card__song-details"></div>
+      <div class="card__player"></div>
+      <div class="card__player-controls">
+        <span class="card__player--play-back player__icon"
+          ><img
+            src="./src/images/Stop_and_play_fill-1.svg"
+            alt="play-prev" /></span
+        ><span
+          class="card__player--start player__icon player__icon--large player__icon--primary"
+        >
+          <img src="./src/images/Play_fill.svg" alt="" /></span
+        ><span class="card__player--pause hidden player__icon"></span
+        ><span class="card__player--play-next player__icon"
+          ><img src="./src/images/Stop_and_play_fill_reverse.svg" />
+        </span>
+      </div>
+    </div>
+
+    <audio src="" class="song"></audio>
   </body>
 </html>

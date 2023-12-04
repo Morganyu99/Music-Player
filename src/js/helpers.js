@@ -1,4 +1,4 @@
 export const classListContains = function (event, className) {
-  if (event.target.classList.contains(String(className))) return true;
+  if (event.target.closest(`.${className}`)) return true;
   return false;
 };

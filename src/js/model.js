@@ -13,9 +13,10 @@ export const songs = [
   },
 ];
 
+export let songIndex = 0;
+
 export const getDuration = async function (songSource, song) {
   try {
-    console.log(songSource, song);
     const audioContext = new AudioContext();
     const songURL = `./src/songs${songSource}`;
     await fetch(songURL)
@@ -31,10 +32,13 @@ export const getDuration = async function (songSource, song) {
           2,
           0
         )}:${durationSeconds.padStart(2, 0)}`;
-        console.log(song.duration);
       })
       .catch((err) => console.log(err));
   } catch (err) {
     console.log(err);
   }
+};
+
+export const assignIndex = function (index) {
+  songIndex = index;
 };
