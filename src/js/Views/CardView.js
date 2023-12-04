@@ -4,6 +4,10 @@ import { classListContains } from "../helpers.js";
 class CardView {
   _parentElement = document.querySelector(".card");
   _song;
+  _musicElement = document.querySelector(".song");
+  _isPlaying = false;
+  _startPlayer = document.querySelector(".card__player--start");
+  _pausePlayer = document.querySelector(".card__player--pause");
 
   async _changeinnerHTML(el, markup) {
     this._parentElement.querySelector(`.${el}`).innerHTML = markup;
@@ -17,14 +21,7 @@ class CardView {
       childEl.classList.remove("hidden");
     });
   }
-  //   _spinner() {
 
-  //       `<svg class="spinner" viewBox="0 0 50 50">
-  //       <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-  //     </svg>
-  //     `
-  //     ;
-  //   }
   addCardHandler(handler) {
     this._parentElement.addEventListener("click", function (e) {
       if (classListContains(e, "card__player--pause")) handler(PAUSE_PLAY);
@@ -34,31 +31,64 @@ class CardView {
         handler(PLAY_PREVIOUS);
     });
   }
-  _generateMarkup() {
-    this._loadImageElement(
-      "card__song-cover",
-      `<img src="./src/images${this._song.image}" alt="" class="hidden"/>`
-    );
 
-    this._changeinnerHTML(
-      "card__song-details",
-      `<h1 class="card__song-name">${this._song.name
-        .split(" ")
-        .map((n) => n[0].toUpperCase() + n.slice(1))
-        .join(" ")}</h1>
-          <h2 class="card__song-artist">${this._song.artist}</h2>`
-    );
+  pausePlayPlayer() {
+    this._isPlaying ? this._musicElement.pause() : this._musicElement.play();
+    this._startPlayer.classList.toggle("hidden");
+    this._pausePlayer.classList.toggle("hidden");
+    this._isPlaying = !this._isPlaying;
+  }
+  _updatePlayer() {
+    this._getDuration(this._musicElement.duration);
+
     this._changeinnerHTML(
       "card__player",
       `<div class="card__time-stamps">
-        <span class="card--start-time">00:00</span>
-        <span class="card--end-time">${this._song.duration}</span>
-      </div>
-  
-      <div class="card__player--total-span">
-        <div class="card__player--occ-span"></div>
-      </div>`
+          <span class="card--start-time">00:00</span>
+          <span class="card--end-time">${this._song.duration}</span>
+        </div>
+    
+        <div class="card__player--total-span">
+          <div class="card__player--occ-span"></div>
+        </div>`
     );
+  }
+  _getDuration(duration) {
+    const durationMinutes = String(Math.trunc(duration / 60));
+    const durationSeconds = String(
+      Math.trunc((duration / 60 - durationMinutes) * 60)
+    );
+    this._song.duration = `${durationMinutes.padStart(
+      2,
+      0
+    )}:${durationSeconds.padStart(2, 0)}`;
+  }
+
+  async _generateMarkup() {
+    try {
+      this._loadImageElement(
+        "card__song-cover",
+        `<img src="./src/images${this._song.image}" alt="" class="hidden"/>`
+      );
+
+      this._changeinnerHTML(
+        "card__song-details",
+        `<h1 class="card__song-name">${this._song.name
+          .split(" ")
+          .map((n) => n[0].toUpperCase() + n.slice(1))
+          .join(" ")}</h1>
+          <h2 class="card__song-artist">${this._song.artist}</h2>`
+      );
+
+      this._musicElement.src = `./src/songs${this._song.song}`;
+
+      this._musicElement.addEventListener(
+        "loadedmetadata",
+        this._updatePlayer.bind(this)
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   renderSong(song) {

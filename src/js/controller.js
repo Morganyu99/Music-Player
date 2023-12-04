@@ -1,4 +1,4 @@
-import { PLAY_NEXT, PLAY_PREVIOUS } from "./config.js";
+import { PAUSE_PLAY, PLAY_NEXT, PLAY_PREVIOUS } from "./config.js";
 import * as model from "./model.js";
 import CardView from "./Views/CardView.js";
 
@@ -17,14 +17,13 @@ const controlPlayer = async function (ev) {
 
     controlCardView();
   }
+  if (ev === PAUSE_PLAY) {
+    CardView.pausePlayPlayer();
+  }
 };
 
 const controlCardView = async function () {
   try {
-    await model.getDuration(
-      model.songs.at(model.songIndex).song,
-      model.songs.at(model.songIndex)
-    );
     CardView.renderSong(model.songs.at(model.songIndex));
   } catch (err) {
     console.log(err);
