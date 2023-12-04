@@ -117,7 +117,7 @@ body {
 }
 .card__player--occ-span {
   background-color: var(--color-primary);
-  max-width: 0;
+  width: 0;
   height: 5px;
   border-radius: 2.5px;
 }

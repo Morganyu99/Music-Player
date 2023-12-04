@@ -3,6 +3,7 @@ import {
   PAUSE_PLAY,
   PLAY_NEXT,
   PLAY_PREVIOUS,
+  PROGRESS_BAR_CLICKED,
 } from "../config.js";
 import { classListContains } from "../helpers.js";
 
@@ -14,7 +15,7 @@ class CardView {
   _startPlayer = document.querySelector(".card__player--start");
   _pausePlayer = document.querySelector(".card__player--pause");
 
-  async _changeinnerHTML(el, markup) {
+  _changeinnerHTML(el, markup) {
     this._parentElement.querySelector(`.${el}`).innerHTML = markup;
   }
 
@@ -28,13 +29,36 @@ class CardView {
   }
 
   addCardHandler(handler) {
+    //for progressBar
+    const moveBar = (e) => {
+      handler(PROGRESS_BAR_CLICKED, e);
+    };
     this._parentElement.addEventListener("click", function (e) {
       if (classListContains(e, "card__player--pause")) handler(PAUSE_PLAY);
       if (classListContains(e, "card__player--play-next")) handler(PLAY_NEXT);
       if (classListContains(e, "card__player--start")) handler(PAUSE_PLAY);
       if (classListContains(e, "card__player--play-back"))
         handler(PLAY_PREVIOUS);
+      if (classListContains(e, "card__player--total-span")) {
+        e.target.addEventListener("mousedown", () => {
+          e.target.addEventListener("mousemove", moveBar);
+        });
+        e.target.addEventListener("mouseup", () => {
+          e.target.removeEventListener("mousemove", moveBar);
+        });
+      }
     });
+  }
+  progressBarChange(ev) {
+    const mainBar = this._parentElement.querySelector(
+      ".card__player--total-span"
+    );
+    const progressBar = this._parentElement.querySelector(
+      ".card__player--occ-span"
+    );
+    const mainBarSpec = mainBar.getBoundingClientRect();
+    const progress = ev.clientX - mainBarSpec.left;
+    progressBar.style.width = `${progress}px`;
   }
 
   pausePlayPlayer() {
@@ -79,6 +103,8 @@ class CardView {
         </div>`
     );
   }
+
+  _addProgressHandler(handler) {}
   _getDuration(duration) {
     const durationMinutes = String(Math.trunc(duration / 60));
     const durationSeconds = String(
@@ -90,31 +116,34 @@ class CardView {
     )}:${durationSeconds.padStart(2, 0)}`;
   }
 
-  async _generateMarkup() {
-    try {
-      this._loadImageElement(
-        "card__song-cover",
-        `<img src="./src/images${this._song.image}" alt="" class="hidden"/>`
-      );
+  _generateMarkup() {
+    this._loadImageElement(
+      "card__song-cover",
+      `<img src="./src/images${this._song.image}" alt="" class="hidden"/>`
+    );
 
-      this._changeinnerHTML(
-        "card__song-details",
-        `<h1 class="card__song-name">${this._song.name
-          .split(" ")
-          .map((n) => n[0].toUpperCase() + n.slice(1))
-          .join(" ")}</h1>
+    this._changeinnerHTML(
+      "card__song-details",
+      `<h1 class="card__song-name">${this._song.name
+        .split(" ")
+        .map((n) => n[0].toUpperCase() + n.slice(1))
+        .join(" ")}</h1>
           <h2 class="card__song-artist">${this._song.artist}</h2>`
-      );
+    );
 
-      this._musicElement.src = `./src/songs${this._song.song}`;
+    this._musicElement.src = `./src/songs${this._song.song}`;
 
-      this._musicElement.addEventListener(
-        "loadedmetadata",
-        this._updatePlayer.bind(this)
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    this._musicElement.addEventListener(
+      "loadedmetadata",
+      this._updatePlayer.bind(this)
+    );
+  }
+
+  _durationChange() {
+    this._musicElement.addEventListener(
+      "durationchange",
+      this._updatePlayer.bind(this)
+    );
   }
 
   renderSong(song) {

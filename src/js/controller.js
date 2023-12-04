@@ -1,8 +1,13 @@
-import { PAUSE_PLAY, PLAY_NEXT, PLAY_PREVIOUS } from "./config.js";
+import {
+  PAUSE_PLAY,
+  PLAY_NEXT,
+  PLAY_PREVIOUS,
+  PROGRESS_BAR_CLICKED,
+} from "./config.js";
 import * as model from "./model.js";
 import CardView from "./Views/CardView.js";
 
-const controlPlayer = async function (ev) {
+const controlPlayer = async function (ev, clickEvent = "") {
   if ((ev === PLAY_PREVIOUS) & CardView.checkTime()) {
     CardView.resetSong();
     controlCardView();
@@ -27,15 +32,15 @@ const controlPlayer = async function (ev) {
   if (ev === PAUSE_PLAY) {
     CardView.pausePlayPlayer();
   }
-};
-
-const controlCardView = async function () {
-  try {
-    CardView.renderSong(model.songs.at(model.songIndex));
-  } catch (err) {
-    console.log(err);
+  if (ev === PROGRESS_BAR_CLICKED) {
+    CardView.progressBarChange(clickEvent);
   }
 };
+
+const controlCardView = function () {
+  CardView.renderSong(model.songs.at(model.songIndex));
+};
+
 const init = async function () {
   try {
     await controlCardView();
