@@ -8,13 +8,13 @@ import * as model from "./model.js";
 import CardView from "./Views/CardView.js";
 
 const controlPlayer = async function (ev, clickEvent = "") {
-  if ((ev === PLAY_PREVIOUS) & CardView.checkTime()) {
+  if (ev === PLAY_PREVIOUS && CardView.checkTime()) {
     CardView.resetSong();
-    controlCardView();
+    //controlCardView();
     return;
   }
 
-  if (ev === PLAY_NEXT || ev === PLAY_PREVIOUS) {
+  if (ev === PLAY_NEXT || (ev === PLAY_PREVIOUS && !CardView.checkTime())) {
     //IF song index is negative
     const updatedIndex = model.songIndex + ev;
     if (updatedIndex < 0) model.assignIndex(model.songs.length - 1);

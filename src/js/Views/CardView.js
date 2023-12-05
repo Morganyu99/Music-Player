@@ -1,7 +1,5 @@
 import {
   CALLED_BY_PROGRESSBAR,
-  LOADED,
-  LOADING,
   MAX_CONSIDERED_TIME,
   PAUSE_PLAY,
   PLAY_NEXT,
@@ -79,13 +77,10 @@ class CardView {
 
     this._musicElement.src = `./src/songs${this._song.song}`;
 
-    if (!this._loaaded) {
-      this._loaaded = LOADING;
-      this._musicElement.addEventListener(
-        "loadedmetadata",
-        this._playerProgress.bind(this)
-      );
-    }
+    this._musicElement.addEventListener(
+      "loadedmetadata",
+      this._playerProgress.bind(this)
+    );
 
     this._musicElement.addEventListener(
       "timeupdate",
@@ -97,22 +92,14 @@ class CardView {
     const endTime = this._getDuration(
       this._musicElement.duration - this._musicElement.currentTime
     );
-    if (calledByProgressBar === CALLED_BY_PROGRESSBAR) {
-      this._refreshPlayer(currentTime, endTime);
-      this.progressBarChange("", this._musicElement.currentTime);
+    if (ev.type === "loadedmetadata") {
+      this._updatePlayer(currentTime, endTime);
+      this._loaaded = true;
       return;
     }
-    if (ev.type === "timeupdate") {
-      return;
-    }
-    this._updatePlayer(currentTime, endTime);
-    if (this._loaaded === LOADING) {
-      this._loaaded = LOADED;
-      this._musicElement.removeEventListener(
-        "loadedmetadata",
-        this._playerProgress
-      );
-    }
+    if (!this._loaaded) return;
+    this._refreshPlayer(currentTime, endTime);
+    this.progressBarChange("", this._musicElement.currentTime);
   }
   _getDuration(duration) {
     const durationMinutes = String(Math.trunc(duration / 60));
@@ -176,8 +163,11 @@ class CardView {
 
   resetSong() {
     this._musicElement.load();
-    this._isPlaying = true;
-    this._musicElement.play();
+    this.changeSongPlay();
+    this._updatePlayer(
+      this._musicElement.currentTime,
+      this._musicElement.duration
+    );
   }
 
   changeSongPlay() {
