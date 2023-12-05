@@ -60,6 +60,8 @@ class CardView {
   }
 
   _generateMarkup() {
+    document.querySelector(".head--title").textContent = this._song.name;
+    this._musicElement.src = `./songs${this._song.song}`;
     this._loadImageElement(
       "card__song-cover",
       `<img src="./images${this._song.image}" alt="" class="hidden"/>`
@@ -73,8 +75,6 @@ class CardView {
         .join(" ")}</h1>
           <h2 class="card__song-artist">${this._song.artist}</h2>`
     );
-
-    this._musicElement.src = `./songs${this._song.song}`;
 
     this._musicElement.addEventListener(
       "loadedmetadata",
