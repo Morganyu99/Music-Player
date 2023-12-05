@@ -111,15 +111,15 @@ body {
 .card__player--total-span {
   margin: 1rem 2rem;
   background-color: var(--color-accent);
-  height: 5px;
-  border-radius: 2.5px;
+  height: 9px;
+  border-radius: 4px;
   box-shadow: 0 0 5px var(--color-primary);
 }
 .card__player--occ-span {
   background-color: var(--color-primary);
   width: 0;
-  height: 5px;
-  border-radius: 2.5px;
+  height: 9px;
+  border-radius: 4px;
 }
 
 .card__player-controls {
