@@ -2,21 +2,17 @@
   "name": "music-player",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html "
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@parcel/config-default": "2.9.2",
-    "cssnano": "^6.0.1",
     "parcel-reporter-static-files-copy": "^1.5.3",
-    "postcss": "^8.4.32"
-  },
-  "dependencies": {
-    "parcel-bundler": "^1.12.5"
+    "parcel": "^2.10.3"
   }
 }
