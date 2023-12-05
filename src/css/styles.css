@@ -21,6 +21,7 @@ html {
   );
   --color-player-text: #4d5562;
   --width: 35rem;
+  --color-primary-highlighted: #972b56;
 }
 
 @media screen and (min-width: 1800px) {
@@ -160,6 +161,7 @@ body {
   margin: 1rem 2rem;
   background-color: var(--color-accent);
   box-shadow: 0 0 5px var(--color-primary);
+  cursor: pointer;
 }
 .card__player--occ-span {
   background-color: var(--color-primary);
@@ -219,16 +221,23 @@ body {
   align-items: center;
   justify-content: center;
   margin: 0 1rem;
+  cursor: pointer;
+  border-radius: 100%;
 }
 
 .player__icon--primary {
-  border-radius: 100%;
   background-color: var(--color-primary);
   box-shadow: 0 0 10px var(--color-primary);
 }
 .player__icon--large {
   width: 5rem;
   height: 5rem;
+}
+.player__icon:hover {
+  box-shadow: 0 0 10px 1px var(--color-player-text);
+}
+.player__icon--primary:hover {
+  background-color: var(--color-primary-highlighted);
 }
 @media screen and (min-width: 1800px) {
   .player__icon img {

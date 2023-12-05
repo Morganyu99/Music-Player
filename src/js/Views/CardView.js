@@ -1,5 +1,4 @@
 import {
-  CALLED_BY_PROGRESSBAR,
   MAX_CONSIDERED_TIME,
   PAUSE_PLAY,
   PLAY_NEXT,
@@ -29,8 +28,8 @@ class CardView {
   _changeinnerHTML(el, markup) {
     this._parentElement.querySelector(`.${el}`).innerHTML = markup;
   }
-  //Card Handler Method
 
+  //Card Handler Method
   addCardHandler(handler) {
     //for progressBar
     const moveBar = (e) => {
@@ -87,7 +86,7 @@ class CardView {
       this._playerProgress.bind(this)
     );
   }
-  _playerProgress(ev = "", calledByProgressBar = "") {
+  _playerProgress(ev = "") {
     const currentTime = this._getDuration(this._musicElement.currentTime);
     const endTime = this._getDuration(
       this._musicElement.duration - this._musicElement.currentTime
@@ -187,7 +186,7 @@ class CardView {
 
   _changeCurrentTime(time) {
     this._musicElement.currentTime = time;
-    this._playerProgress("", CALLED_BY_PROGRESSBAR);
+    this._playerProgress("");
   }
 }
 

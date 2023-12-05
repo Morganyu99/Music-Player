@@ -10,7 +10,6 @@ import CardView from "./Views/CardView.js";
 const controlPlayer = async function (ev, clickEvent = "") {
   if (ev === PLAY_PREVIOUS && CardView.checkTime()) {
     CardView.resetSong();
-    //controlCardView();
     return;
   }
 
